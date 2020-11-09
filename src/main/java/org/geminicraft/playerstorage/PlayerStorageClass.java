@@ -1,34 +1,35 @@
 package org.geminicraft.playerstorage;
 
 import org.bukkit.Bukkit;
-import org.geminicraft.playerstorage.database.AnotherDatabaseTest;
-import org.geminicraft.playerstorage.database.CustomTestDatabase;
+import org.geminicraft.playerstorage.database.GeminiDatabase;
+import org.geminicraft.playerstorage.database.GeminiQueryClass;
 import org.geminicraft.playerstorage.events.DatabaseListener;
 import org.mineacademy.fo.Common;
 import org.mineacademy.fo.plugin.SimplePlugin;
-
 import java.sql.SQLException;
 
 public class PlayerStorageClass extends SimplePlugin {
 
-    public AnotherDatabaseTest test;
-    public CustomTestDatabase database;
+
+    public GeminiDatabase database;
+    public GeminiQueryClass queries;
 
     @Override
     protected void onPluginStart() {
+
         Common.log("PlayerStorage connected");
 
-        this.test = new AnotherDatabaseTest();
-        this.database = new CustomTestDatabase(this);
+        this.database = new GeminiDatabase();
+        this.queries = new GeminiQueryClass(this);
 
         try {
-            test.connect();
+            database.connect();
         } catch (ClassNotFoundException | SQLException exception) {
             Bukkit.getLogger().info("Database not connected");
             exception.printStackTrace();
         }
 
-        if (test.isConnected()) {
+        if (database.isConnected()) {
             Bukkit.getLogger().info("Database is connected");
             registerEvents(new DatabaseListener(this));
 
@@ -37,6 +38,6 @@ public class PlayerStorageClass extends SimplePlugin {
 
     @Override
     protected void onPluginStop() {
-        test.disconnect();
+        database.disconnect();
     }
 }

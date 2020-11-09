@@ -4,12 +4,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class AnotherDatabaseTest {
+public class GeminiDatabase {
 
-    private String host = "";
-    private String port = "";
-    private String database = "";
-    private String username = "";
+    private String host = "localhost";
+    private String port = "3306";
+    private String database = "geminicraft_test_database";
+    private String username = "root";
     private String password = "";
 
     private Connection connection;
@@ -39,6 +39,8 @@ public class AnotherDatabaseTest {
     public Connection getConnection() {
         return connection;
     }
+
+
 
 
 }

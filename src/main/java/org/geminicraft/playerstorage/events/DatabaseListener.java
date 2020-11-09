@@ -6,7 +6,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.geminicraft.playerstorage.PlayerStorageClass;
 import org.geminicraft.playerstorage.conversations.VerifyInGameConversation;
-import org.geminicraft.playerstorage.database.CustomTestDatabase;
+import org.geminicraft.playerstorage.database.GeminiQueryClass;
+import org.mineacademy.fo.Common;
 
 
 public class DatabaseListener implements Listener {
@@ -18,16 +19,17 @@ public class DatabaseListener implements Listener {
         this.main = main;
     }
 
-    private CustomTestDatabase database;
+    private GeminiQueryClass database;
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        this.database = new CustomTestDatabase(main);
+        this.database = new GeminiQueryClass(main);
         final Player player = event.getPlayer();
         database.createPlayer(player);
 
         // TODO: Externalize to either verification class or db class?
         if (database.playerHasCreatedAccount(player)) {
+            Common.log("has created account");
             if (!database.hasVerifiedInGame(player)) {
 
                 new VerifyInGameConversation(main).show(player);
